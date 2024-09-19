@@ -26,5 +26,10 @@ interface tls {
         @unstable(feature = tls)
         get: func() -> option<result<result<tuple<input-stream, output-stream>>>>;
     }
+
+    // TODO: this belongs in `wasi:io/streams` but we put it here temporarily to
+    // make implementation easier (i.e. avoid forking `wasmtime_wasi`).
+    @unstable(feature = tls)
+    make-pipe: func() -> tuple<input-stream, output-stream>;
 }
 
