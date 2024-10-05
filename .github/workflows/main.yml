@@ -19,5 +19,3 @@ jobs:
         git add -N wit/deps
         git diff --exit-code
     - uses: WebAssembly/wit-abi-up-to-date@v21
-      with:
-        wit-bindgen: '0.28.0'
