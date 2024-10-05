@@ -1,9 +1,9 @@
 @unstable(feature = tls)
 interface tls {
     @unstable(feature = tls)
-    use wasi:io/streams@0.2.1.{input-stream, output-stream};
+    use wasi:io/streams@0.2.0.{input-stream, output-stream};
     @unstable(feature = tls)
-    use wasi:io/poll@0.2.1.{pollable};
+    use wasi:io/poll@0.2.0.{pollable};
 
     @unstable(feature = tls)
     resource client-connection {
