@@ -5,6 +5,38 @@ interface tls {
     @unstable(feature = tls)
     use wasi:io/poll@0.2.0.{pollable};
 
+    /// TLS protocol version.
+    ///
+    /// At the time of writing, these are the existing TLS versions:
+    /// - 0x0200: SSLv2 (Deprecated)
+    /// - 0x0300: SSLv3 (Deprecated)
+    /// - 0x0301: TLSv1.0 (Deprecated)
+    /// - 0x0302: TLSv1.1 (Deprecated)
+    /// - 0x0303: TLSv1.2
+    /// - 0x0304: TLSv1.3
+    ///
+    /// TODO: Want to use regular WIT `enum` type, but then adding a new protocol is backwards incompatible.
+    type protocol-version = u16;
+
+    /// Application-Layer Protocol Negotiation (ALPN) protocol ID.
+    ///
+    /// ALPN IDs are between 1 and 255 bytes long. Typically, they represent the
+    /// binary encoding of an ASCII string (e.g. `[0x68 0x32]` for `"h2"`),
+    /// though this is not required.
+    type alpn-id = list<u8>;
+
+    /// TLS Cipher suite.
+    ///
+    /// These are maintained by IANA. Examples:
+    /// - 0x1301: TLS_AES_128_GCM_SHA256
+    /// - 0x1302: TLS_AES_256_GCM_SHA384
+    /// - 0xC030: TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+    /// - 0xC02B: TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
+    /// - etc.
+    /// 
+    /// See: <https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml#tls-parameters-4>
+    type cipher-suite = u16;
+
     @unstable(feature = tls)
     resource client-connection {
         @unstable(feature = tls)
