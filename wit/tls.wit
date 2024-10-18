@@ -11,6 +11,41 @@ interface tls {
         constructor(input: input-stream, output: output-stream);
         @unstable(feature = tls)
         connect: func(server-name: string) -> result<client-handshake>;
+        /// The server name that was provided to `connect`.
+        @unstable(feature = tls)
+        server-name: func() -> option<string>;
+
+        /// The negotiated ALPN ID, if any.
+        ///
+        /// Returns `none` when:
+        /// - the client did not advertise any ALPN IDs, or:
+        /// - there was no intersection between the IDs advertised by the client
+        ///   and the IDs supported by the server. 
+        @unstable(feature = tls)
+        alpn-id: func() -> option<alpn-id>;
+
+        /// The client's identity advertised to the server, if any.
+        /// This will be one of the identities passed to
+        /// `client-identity-request::respond`.
+        ///
+        /// Returns `none` when:
+        /// - the server did not request a client certificate,
+        /// - the server did request a client certificate, but there was no match
+        ///   with the configured identities.
+        @unstable(feature = tls)
+        client-identity: func() -> option<private-identity>;
+
+        /// The verified certificate of the server.
+        @unstable(feature = tls)
+        server-identity: func() -> option<public-identity>;
+
+        /// The negotiated TLS protocol version.
+        @unstable(feature = tls)
+        protocol-version: func() -> option<protocol-version>;
+
+        /// The negotiated cipher suite
+        @unstable(feature = tls)
+        cipher-suite: func() -> option<cipher-suite>;
     }
 
     @unstable(feature = tls)
