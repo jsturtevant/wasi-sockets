@@ -37,6 +37,22 @@ interface tls {
     /// See: <https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml#tls-parameters-4>
     type cipher-suite = u16;
 
+    /// A X509 certificate chain; starting with the end-entity's certificate
+    /// followed by 0 or more intermediate certificates.
+    resource public-identity {
+        export-X509-chain: func() -> list<list<u8>>;
+    }
+
+    /// The combination of a private key with its public certificate(s).
+    /// The private key data can not be exported.
+    resource private-identity {
+        /// TODO: find a way to "preopen" these private-identity resources, so that the sensitive private key data never has to flow through the guest.
+        /// TODO: specify which exact binary format
+        //parse: static func(private-key: list<u8>, x509-chain: list<list<u8>>) -> result<private-identity>;
+
+        public-identity: func() -> public-identity;
+    }
+
     @unstable(feature = tls)
     resource client-connection {
         @unstable(feature = tls)
